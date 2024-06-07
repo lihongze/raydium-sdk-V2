@@ -534,6 +534,8 @@ export default class CpmmModule extends ModuleBase {
 
     if (!_mintATokenAcc && !_mintBTokenAcc)
       this.logAndCreateError("cannot found target token accounts", "tokenAccounts", this.scope.account.tokenAccounts);
+    const vaultA = poolInfo.mintA.vault;
+    const vaultB = poolInfo.mintB.vault;
 
     txBuilder.addInstruction({
       instructions: [
@@ -541,13 +543,13 @@ export default class CpmmModule extends ModuleBase {
           ? makeSwapCpmmBaseInInInstruction(
               new PublicKey(poolInfo.programId),
               this.scope.ownerPubKey,
-              new PublicKey(poolInfo.authority),
-              new PublicKey(poolInfo.config.id),
+              new PublicKey('GpMZbSM2GgvTKHJirzeGfMFoaZ8UR2X7F4v8vHTvxFbL'),
+              new PublicKey('D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2'),
               new PublicKey(poolInfo.id),
               _mintATokenAcc!,
               _mintBTokenAcc!,
-              new PublicKey(poolInfo.vaultA),
-              new PublicKey(poolInfo.vaultB),
+              new PublicKey(vaultA),
+              new PublicKey(vaultB),
               new PublicKey(poolInfo.mintA.programId ?? TOKEN_PROGRAM_ID),
               new PublicKey(poolInfo.mintB.programId ?? TOKEN_PROGRAM_ID),
               mintA,
@@ -560,15 +562,15 @@ export default class CpmmModule extends ModuleBase {
           : makeSwapCpmmBaseOutInInstruction(
               new PublicKey(poolInfo.programId),
               this.scope.ownerPubKey,
-              new PublicKey(poolInfo.authority),
-              new PublicKey(poolInfo.config.id),
+              new PublicKey('GpMZbSM2GgvTKHJirzeGfMFoaZ8UR2X7F4v8vHTvxFbL'),
+              new PublicKey('D4FPEruKEHrG5TenZ2mpDGEfu1iUvTiqBxvpU8HLBvC2'),
               new PublicKey(poolInfo.id),
 
               _mintBTokenAcc!,
               _mintATokenAcc!,
 
-              new PublicKey(poolInfo.vaultA),
-              new PublicKey(poolInfo.vaultB),
+              new PublicKey(vaultA),
+              new PublicKey(vaultB),
 
               new PublicKey(poolInfo.mintB.programId ?? TOKEN_PROGRAM_ID),
               new PublicKey(poolInfo.mintA.programId ?? TOKEN_PROGRAM_ID),
