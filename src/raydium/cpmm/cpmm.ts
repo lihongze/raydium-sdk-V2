@@ -535,21 +535,19 @@ export default class CpmmModule extends ModuleBase {
     if (!_mintATokenAcc && !_mintBTokenAcc)
       this.logAndCreateError("cannot found target token accounts", "tokenAccounts", this.scope.account.tokenAccounts);
 
-    const poolKeys = await this.getCpmmPoolKeys(poolInfo.id);
-
     txBuilder.addInstruction({
       instructions: [
         baseIn
           ? makeSwapCpmmBaseInInInstruction(
               new PublicKey(poolInfo.programId),
               this.scope.ownerPubKey,
-              new PublicKey(poolKeys.authority),
-              new PublicKey(poolKeys.config.id),
+              new PublicKey(poolInfo.authority),
+              new PublicKey(poolInfo.config.id),
               new PublicKey(poolInfo.id),
               _mintATokenAcc!,
               _mintBTokenAcc!,
-              new PublicKey(poolKeys.vault.A),
-              new PublicKey(poolKeys.vault.B),
+              new PublicKey(poolInfo.vaultA),
+              new PublicKey(poolInfo.vaultB),
               new PublicKey(poolInfo.mintA.programId ?? TOKEN_PROGRAM_ID),
               new PublicKey(poolInfo.mintB.programId ?? TOKEN_PROGRAM_ID),
               mintA,
@@ -562,15 +560,15 @@ export default class CpmmModule extends ModuleBase {
           : makeSwapCpmmBaseOutInInstruction(
               new PublicKey(poolInfo.programId),
               this.scope.ownerPubKey,
-              new PublicKey(poolKeys.authority),
-              new PublicKey(poolKeys.config.id),
+              new PublicKey(poolInfo.authority),
+              new PublicKey(poolInfo.config.id),
               new PublicKey(poolInfo.id),
 
               _mintBTokenAcc!,
               _mintATokenAcc!,
 
-              new PublicKey(poolKeys.vault.B),
-              new PublicKey(poolKeys.vault.A),
+              new PublicKey(poolInfo.vaultA),
+              new PublicKey(poolInfo.vaultB),
 
               new PublicKey(poolInfo.mintB.programId ?? TOKEN_PROGRAM_ID),
               new PublicKey(poolInfo.mintA.programId ?? TOKEN_PROGRAM_ID),
